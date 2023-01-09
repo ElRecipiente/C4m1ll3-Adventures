@@ -1,0 +1,69 @@
+/*
+Palette de couleurs :
+https://coolors.co/272838-f3de8a-eb9486-7e7f9a-f9f8f8
+*/
+body {
+    background: rgb(0, 0, 0);
+    color: white;
+    font-family: Arial, sans-serif;
+  }
+
+.container  {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    width: 80%;
+    margin: auto;
+}
+
+header h1,p {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: lighter;
+    text-align: center;
+}
+
+section {
+    background: #272838;
+}
+
+section h3 {
+    width: fit-content;
+}
+
+section.flex {
+    width: 40%;
+    padding: 0em 1em 1em 1em;
+}
+
+section#buttonList{
+    align-items: center;
+}
+
+.flex {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+.profilHead {
+    margin: 1em 0;
+}
+
+.healthbar {
+    background: green;
+    width: 100%;
+}
+
+.manabar {
+    background: blue;
+    width: 100%;
+}
+
+button {
+    width: fit-content;
+}
