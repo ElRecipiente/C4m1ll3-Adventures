@@ -1,119 +1,205 @@
-let playerLife = 100;
-let enemyLife = 100;
-let playerMana = 100;
+const combatLog = document.querySelector("section#bottomText p");
+const playerMaxLife = 90;
+const enemyMaxLife = 70;
+const playerMaxMana = 150;
+const enemyMaxMana = 100;
+const manaPotion = 50;
+const healPotion = 40;
+let playerLife = 90;
+let enemyLife = 70;
+let playerMana = 150;
 let enemyMana = 100;
+let healPotionStock = 3;
+let manaPotionStock = 3;
 
-const miniPotion = 10;
-const maxiPotion = 30;
+combatLog.innerHTML = `Here comes a new challenger ! C4m1ll3 enters the dungeon.<br>`;
 
-console.log(`Here comes a new challenger ! C4m1ll3 enters the dungeon.`)
+function getRand(x) {
+    return Math.floor(Math.random() * x);
+}
 
-function attackWithHands() {
-    enemyLife -= 10;
+function enemyAttack() {
+    combatLog.innerHTML += `<br>☠️Enemy turn begins !☠️`
+    let damages = getRand(10) + 10;
+    playerLife -= damages;
+    if (damages <= 10) {
+        combatLog.innerHTML += `<br>Enemy attacked, but misses !`;
+    }
+    else if (playerLife > 0) {
+        combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp !`;
+    }
+    else if (playerLife <= 0) {
+        playerLife = 0;
+        combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp ! You die... GAME OVER.`;
+    }
+    combatLog.innerHTML += `<br>🪄Your turn ! What will you do ?🪄`
+    updateLife();
+}
+
+function spark() {
+    let damages = getRand(5) + 5;
+    enemyLife -= damages;
     if (enemyLife < 0) {
         enemyLife = 0;
-        console.log("You continue to punch the dead corpse on the ground.");
+        combatLog.innerHTML += "<br>You made your enemy disapear in sparkles.";
     }
     else if (enemyLife == 0) {
-        console.log(`FINISHER PUNCH ! Enemy's life is now at ${enemyLife} hp ! He dies !`);
+        combatLog.innerHTML += `<br>FINISHER RAINBOW SPARKLE ! Enemy's life is now at ${enemyLife} hp ! He dies !`;
     }
     else {
-        console.log(`Punch ! Enemy's life is now at ${enemyLife} hp !`);
+        combatLog.innerHTML += `<br>Hit for ${damages} ! Enemy's life is now at ${enemyLife} hp !`;
     }
     updateLife();
 }
 
 function attackWithSword() {
-    enemyLife -= 30;
+    let damages = getRand(15) + 5
+    enemyLife -= damages;
     if (enemyLife <= 0) {
         enemyLife = 0;
-        console.log(`FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !`);
+        combatLog.innerHTML += `<br>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !`;
     }
     else {
-        console.log(`Swing ! Enemy's life is now at ${enemyLife} hp !`);
+        combatLog.innerHTML += `<br>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.`;
     }
+    enemyAttack();
     updateLife();
 }
 
 function fireball() {
     if (playerMana < 30) {
-        console.log(`You try to blast a fireball, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`)
+        combatLog.innerHTML += `<br>You try to blast a fireball, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`;
     }
     else {
         enemyLife /= 2;
         playerMana -= 30;
 
-        if (enemyLife >= 50) {
-            console.log(`You blast a incredible fireball in the enemmy's head ! He takes ${enemyLife} damages !`)
+        if (enemyLife >= (enemyMaxLife / 2)) {
+            combatLog.innerHTML += `<br>You blast a incredible fireball in the enemy's head ! He takes ${enemyLife} damages !`;
         }
         else {
-            console.log(`You blast a fireball on the enemy, but he seems to resist !`)
+            combatLog.innerHTML += `<br>You blast a fireball on the enemy, but he seems to resist !`
         }
     }
-
+    enemyAttack();
     updateLife();
     updateMana();
 }
 
-function enemyAttack() {
-    playerLife -= 40;
-    if (playerLife > 0) {
-        console.log(`Enemy attacked ! C4m1ll3's life is now at ${playerLife} hp !`);
+function takeHealPotion(p) {
+    if (healPotionStock >= 0) {
+        healPotionStock -= 1;
     }
-    else if (playerLife <= 0) {
-        playerLife = 0;
-        console.log(`Enemy attacked ! C4m1ll3's life is now at ${playerLife} hp ! You die... GAME OVER.`);
+    if (healPotionStock < 0) {
+        healPotionStock = 0;
+        combatLog.innerHTML += `<br>You can't use any heal potions, you drink them all !`
     }
-    updateLife();
+    else {
+        playerLife += p;
+        if (playerLife == playerMaxLife) {
+            combatLog.innerHTML += `<br>Glup, taking a heal potion !<br>C4m1ll3 took a potion, her life is now full !`;
+        }
+        else if (playerLife > playerMaxLife) {
+            playerLife = playerMaxLife;
+            combatLog.innerHTML += `<br>Glup, taking a heal potion !<br>C4m1ll3 took a potion, but her life is allready full ! What a waste...`;
+        }
+        else if (p == 40) {
+
+            combatLog.innerHTML += `<br>Glup, taking a heal potion !<br>C4m1ll3 took a potion, her life is now at ${playerLife} hp.`;
+        }
+        updateLife();
+        updatePotions();
+    }
 }
 
-function takePotion(p) {
-    playerLife += p;
-    if (playerLife == 100) {
-        console.log(`Glup, taking a potion !\nC4m1ll3 took a potion, her life is now full !`)
+function takeManaPotion(q) {
+    if (manaPotionStock >= 0) {
+        manaPotionStock -= 1;
     }
-    else if (playerLife > 100) {
-        playerLife = 100;
-        console.log(`Glup, taking a potion !\nC4m1ll3 took a potion, but her life is allready full ! What a waste...`);
+    if (manaPotionStock < 0) {
+        manaPotionStock = 0;
+        combatLog.innerHTML += `<br>You can't use any mana potions, you drink them all !`
     }
-    else if (p == 10) {
+    else {
+        playerMana += q;
+        if (playerMana == playerMaxMana) {
+            combatLog.innerHTML += `<br>Glup, taking a mana potion !<br>C4m1ll3 took a potion, her mana is now full !`;
+        }
+        else if (playerMana > playerMaxMana) {
+            playerMana = playerMaxMana;
+            combatLog.innerHTML += `<br>Glup, taking a mana potion !<br>C4m1ll3 took a potion, but her mana is allready full ! What a waste...`;
+        }
+        else if (q == 50) {
 
-        console.log(`Glup, taking mini potion !\nC4m1ll3 took a potion, her life is now at ${playerLife} hp.`);
+            combatLog.innerHTML += `<br>Glup, taking a mana potion !<br>C4m1ll3 took a potion, her mana is now at ${playerMana} mp.`;
+        }
+        updateMana();
+        updatePotions();
     }
-    else if (p == 30) {
-        console.log(`Glup, taking maxi potion !\nC4m1ll3 took a potion, her life is now at ${playerLife} hp.`);
-    }
-    updateLife();
 }
 
-function comboAttack(nbHits) {
-    console.log(`COMBO ATTACK X${nbHits}`);
-    for (let i = 0; i < nbHits; i++) {
-        attackWithHands();
+function magicSparkles(nbHits) {
+    if (playerMana < 50) {
+        combatLog.innerHTML += `<br>You try to cast Magic Sparkles, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`
     }
-    updateLife();
+    else {
+        playerMana -= 50;
+        combatLog.innerHTML += `<br>You cast Magic Sparkles on your enemy !<br>COMBO ATTACK X${nbHits}`;
+        for (let i = 0; i < nbHits; i++) {
+            spark();
+        }
+        enemyAttack();
+        updateLife();
+        updateMana();
+    }
 }
 
 const playerLifeBar = document.querySelector("#player .healthbar");
 const enemyLifeBar = document.querySelector("#enemy .healthbar");
 const playerManaBar = document.querySelector("#player .manabar");
 const enemyManaBar = document.querySelector("#enemy .manabar");
+const nbLifePotions = document.querySelector(".inventory ul li span#heal")
+const nbManaPotions = document.querySelector(".inventory ul li span#mana")
+
+
+function playerLifePourcent() {
+    return playerLife / playerMaxLife * 100;
+}
+
+function playerManaPourcent() {
+    return playerMana / playerMaxMana * 100;
+}
+
+function enemyLifePourcent() {
+    return enemyLife / enemyMaxLife * 100;
+}
+
+function enemyManaPourcent() {
+    return enemyMana / enemyMaxMana * 100;
+}
 
 function updateLife() {
-    playerLifeBar.style.width = `${playerLife}%`;
-    playerLifeBar.innerHTML = `${playerLife}HP`;
-    enemyLifeBar.style.width = `${enemyLife}%`;
-    enemyLifeBar.innerHTML = `${enemyLife}HP`;
+    playerLifeBar.style.width = `${playerLifePourcent()}%`;
+    playerLifeBar.innerHTML = `${playerLife}/${playerMaxLife}HP`;
+    enemyLifeBar.style.width = `${enemyLifePourcent()}%`;
+    enemyLifeBar.innerHTML = `${enemyLife}/${enemyMaxLife}HP`;
 }
+
 updateLife();
 
 function updateMana() {
-    playerManaBar.style.width = `${playerMana}%`;
-    playerManaBar.innerHTML = `${playerMana}MP`;
-    enemyManaBar.style.width = `${enemyMana}%`;
-    enemyManaBar.innerHTML = `${enemyMana}MP`;
+    playerManaBar.style.width = `${playerManaPourcent()}%`;
+    playerManaBar.innerHTML = `${playerMana}/${playerMaxMana}MP`;
+    enemyManaBar.style.width = `${enemyManaPourcent()}%`;
+    enemyManaBar.innerHTML = `${enemyMana}/${enemyMaxMana}MP`;
 }
 updateMana();
+
+function updatePotions() {
+    nbLifePotions.innerHTML = `${healPotionStock}`
+    nbManaPotions.innerHTML = `${manaPotionStock}`
+}
+updatePotions();
 
 // attackWithSword();
 // attackWithHands();

@@ -8,6 +8,26 @@ body {
     font-family: Arial, sans-serif;
   }
 
+.flex {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+}
+
+ul {
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    list-style: none;
+}
+
+h3 {
+    align-self: center;
+}
+
+/* CONTAINER */
 .container  {
     display: flex;
     flex-flow: row wrap;
@@ -16,19 +36,22 @@ body {
     margin: 0 auto;
 }
 
+/* HEADER */
 header {
     width: 80%;
     margin: auto;
 }
 
-header h1,p {
+header h1, header p {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-weight: lighter;
     text-align: center;
 }
 
+/* SECTION */
 section {
     background: #272838;
+    margin: 2em 0;
 }
 
 section h3 {
@@ -40,15 +63,29 @@ section.flex {
     padding: 0em 1em 1em 1em;
 }
 
-section#buttonList{
-    align-items: center;
+/* FIRST SECTION */
+section#actionsInventory {
+    flex-flow: row;
+    justify-content: space-between;
 }
 
-.flex {
+.actions {
     display: flex;
     flex-flow: column;
-    justify-content: center;
+    width: 40%;
 }
+
+.inventory {
+    display: flex;
+    flex-flow: column;
+    width: 40%;
+}
+
+button {
+    padding: 0.5em;
+}
+
+/* SECOND SECTION */
 
 .profilHead {
     font-size: 5em;
@@ -58,13 +95,26 @@ section#buttonList{
 .healthbar {
     background: green;
     width: 100%;
+    text-align: center;
 }
 
 .manabar {
     background: blue;
     width: 100%;
+    text-align: center;
 }
 
-button {
-    width: fit-content;
+/* LAST SECTION */
+section#bottomText {
+    width: 40%;
+    height: 20em;
+    justify-content: space-between;
+}
+
+section#bottomText p {
+    display: flex;
+    flex-flow: column-reverse;
+    font-size: smaller;
+    line-height: 2em;
+    overflow-y: scroll;
 }
