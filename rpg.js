@@ -1,4 +1,5 @@
 const combatLog = document.querySelector("section#bottomText p");
+const actionButtons = document.querySelectorAll(".actions button");
 const playerMaxLife = 90;
 const enemyMaxLife = 70;
 const playerMaxMana = 150;
@@ -18,22 +19,38 @@ function getRand(x) {
     return Math.floor(Math.random() * x);
 }
 
+function disableButtons() {
+    for (let i = 0; i < actionButtons.length; i++) {
+        if (actionButtons[i].disabled) {
+            actionButtons[i].disabled = false;
+        }
+        else {
+            actionButtons[i].disabled = true;
+        }
+    }
+}
+
 function enemyAttack() {
-    combatLog.innerHTML += `<br>☠️Enemy turn begins !☠️`
-    let damages = getRand(10) + 10;
-    playerLife -= damages;
-    if (damages <= 10) {
-        combatLog.innerHTML += `<br>Enemy attacked, but misses !`;
+    if (enemyLife <= 0) {
+        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
     }
-    else if (playerLife > 0) {
-        combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp !`;
+    else {
+        combatLog.innerHTML += `<br>☠️Enemy turn begins !☠️`
+        let damages = getRand(10) + 10;
+        playerLife -= damages;
+        if (damages <= 10) {
+            combatLog.innerHTML += `<br>Enemy attacked, but misses !`;
+        }
+        else if (playerLife > 0) {
+            combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp !`;
+        }
+        else if (playerLife <= 0) {
+            playerLife = 0;
+            combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp ! You die... GAME OVER.`;
+        }
+        combatLog.innerHTML += `<br>🪄Your turn ! What will you do ?🪄`
+        updateLife();
     }
-    else if (playerLife <= 0) {
-        playerLife = 0;
-        combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp ! You die... GAME OVER.`;
-    }
-    combatLog.innerHTML += `<br>🪄Your turn ! What will you do ?🪄`
-    updateLife();
 }
 
 function spark() {
@@ -53,37 +70,55 @@ function spark() {
 }
 
 function attackWithSword() {
-    let damages = getRand(15) + 5
-    enemyLife -= damages;
     if (enemyLife <= 0) {
-        enemyLife = 0;
-        combatLog.innerHTML += `<br>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !`;
+        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
     }
     else {
-        combatLog.innerHTML += `<br>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.`;
+        let damages = getRand(15) + 5
+        enemyLife -= damages;
+        if (enemyLife <= 0) {
+            enemyLife = 0;
+            combatLog.innerHTML += `<br>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !`;
+        }
+        else {
+            combatLog.innerHTML += `<br>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.`;
+        }
+        disableButtons();
+        setTimeout(function () {
+            enemyAttack();
+            disableButtons();
+        }, 1000);
+        updateLife();
     }
-    enemyAttack();
-    updateLife();
 }
 
 function fireball() {
-    if (playerMana < 30) {
-        combatLog.innerHTML += `<br>You try to blast a fireball, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`;
+    if (enemyLife <= 0) {
+        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
     }
     else {
-        enemyLife /= 2;
-        playerMana -= 30;
-
-        if (enemyLife >= (enemyMaxLife / 2)) {
-            combatLog.innerHTML += `<br>You blast a incredible fireball in the enemy's head ! He takes ${enemyLife} damages !`;
+        if (playerMana < 30) {
+            combatLog.innerHTML += `<br>You try to blast a fireball, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`;
         }
         else {
-            combatLog.innerHTML += `<br>You blast a fireball on the enemy, but he seems to resist !`
+            enemyLife /= 2;
+            playerMana -= 30;
+
+            if (enemyLife >= (enemyMaxLife / 2)) {
+                combatLog.innerHTML += `<br>You blast a incredible fireball in the enemy's head ! He takes ${enemyLife} damages !`;
+            }
+            else {
+                combatLog.innerHTML += `<br>You blast a fireball on the enemy, but he seems to resist !`
+            }
         }
+        disableButtons();
+        setTimeout(function () {
+            enemyAttack();
+            disableButtons();
+        }, 1000);
+        updateLife();
+        updateMana();
     }
-    enemyAttack();
-    updateLife();
-    updateMana();
 }
 
 function takeHealPotion(p) {
@@ -139,18 +174,27 @@ function takeManaPotion(q) {
 }
 
 function magicSparkles(nbHits) {
-    if (playerMana < 50) {
-        combatLog.innerHTML += `<br>You try to cast Magic Sparkles, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`
+    if (enemyLife <= 0) {
+        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
     }
     else {
-        playerMana -= 50;
-        combatLog.innerHTML += `<br>You cast Magic Sparkles on your enemy !<br>COMBO ATTACK X${nbHits}`;
-        for (let i = 0; i < nbHits; i++) {
-            spark();
+        if (playerMana < 50) {
+            combatLog.innerHTML += `<br>You try to cast Magic Sparkles, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`
         }
-        enemyAttack();
-        updateLife();
-        updateMana();
+        else {
+            playerMana -= 50;
+            combatLog.innerHTML += `<br>You cast Magic Sparkles on your enemy !<br>COMBO ATTACK X${nbHits}`;
+            for (let i = 0; i < nbHits; i++) {
+                spark();
+            }
+            disableButtons();
+            setTimeout(function () {
+                enemyAttack();
+                disableButtons();
+            }, 1000);
+            updateLife();
+            updateMana();
+        }
     }
 }
 
