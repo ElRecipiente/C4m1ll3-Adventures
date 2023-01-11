@@ -7,11 +7,22 @@ body {
     color: white;
     font-family: Arial, sans-serif;
   }
+.red {
+    color: red;
+}
+
+.green {
+    color: rgb(44, 255, 96);
+}
+
+.blue {
+    color: rgb(0, 183, 255);
+}
 
 .flex {
     display: flex;
     flex-flow: column;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 ul {
@@ -51,7 +62,8 @@ header h1, header p {
 /* SECTION */
 section {
     background: #272838;
-    margin: 2em 0;
+    margin: 1em 0;
+    border-radius: 1em;
 }
 
 section h3 {
@@ -60,29 +72,39 @@ section h3 {
 
 section.flex {
     width: 40%;
-    padding: 0em 1em 1em 1em;
+    padding: 2em;
 }
 
 /* FIRST SECTION */
 section#actionsInventory {
     flex-flow: row;
     justify-content: space-between;
+    background: rgb(0, 0, 0);
 }
 
 .actions {
+    background: #272838;
+    border-radius: 1em;
     display: flex;
     flex-flow: column;
     width: 40%;
+    padding: 1em;
 }
 
 .inventory {
+    background: #272838;
+    border-radius: 1em;
     display: flex;
     flex-flow: column;
+    justify-content: space-between;
     width: 40%;
+    padding: 1em;
 }
 
 button {
+    width: fit-content;
     padding: 0.5em;
+    align-self: center;
 }
 
 /* SECOND SECTION */
@@ -90,6 +112,65 @@ button {
 .profilHead {
     font-size: 5em;
     text-align: center;
+    position: relative;
+}
+
+#player .profilHead p {
+    color: red;
+    font-size: initial;
+    position: absolute;
+    opacity: 0%;
+    top : 0;
+    right: 40%;
+}
+
+#player .profilHead p.damages {
+    animation: hit 2s;
+}
+
+@keyframes hit {
+    0% {
+        opacity: 100%;
+        scale: 200%;
+    }
+    10% {
+        opacity: 100%;
+        top: 0;
+        scale: 100%;
+    }
+    100% {
+        opacity: 0%;
+        top: -40%;
+    }
+}
+
+#enemy .profilHead p {
+    color: red;
+    font-size: initial;
+    position: absolute;
+    opacity: 0%;
+    top : 0;
+    right: 40%;
+}
+
+#enemy .profilHead p.damages {
+    animation: hit 2s;
+}
+
+@keyframes hit {
+    0% {
+        opacity: 100%;
+        scale: 200%;
+    }
+    10% {
+        opacity: 100%;
+        top: 0;
+        scale: 100%;
+    }
+    100% {
+        opacity: 0%;
+        top: -40%;
+    }
 }
 
 .healthbar {
@@ -104,17 +185,33 @@ button {
     text-align: center;
 }
 
-/* LAST SECTION */
+/* THIRD SECTION */
 section#bottomText {
     width: 40%;
-    height: 20em;
+    height: 15em;
     justify-content: space-between;
+    position: absolute;
+    bottom: 0;
+    opacity: 50%;
+    background: rgb(0, 0, 0);
+    transition: 2s;
+}
+
+section#bottomText:hover {
+    opacity: 100%;
+    /* background: #272838; */
+}
+
+section#bottomText div{
+    overflow-y: scroll;
 }
 
 section#bottomText p {
-    display: flex;
-    flex-flow: column-reverse;
     font-size: smaller;
-    line-height: 2em;
-    overflow-y: scroll;
+}
+
+/* LAST SECTION */
+
+section#instructions {
+    margin-left: auto;
 }

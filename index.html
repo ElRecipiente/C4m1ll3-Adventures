@@ -13,17 +13,24 @@
     <main>
         <header>
             <h1>C4m1ll3 Adventures</h1>
-            <p>Welcome to C4m1ll3 Adventures ! Please, read the rules below before start playing :</p>
+            <p>Welcome to C4m1ll3 Adventures ! Please, read the rules below before start playing :
+            </p>
         </header>
         <div class="container">
             <section class="flex" id="actionsInventory">
                 <div class="actions">
                     <h3>Actions</h3>
-                    <button onclick="takeHealPotion(40)">Take heal potion 🍸</button>
-                    <button onclick="takeManaPotion(50)">Take mana potion 🍺</button>
-                    <button onclick="fireball()">Fireball 🔥</button>
-                    <button onclick="magicSparkles(getRand(2) + 3)">Magic Sparkles 🪄</button>
-                    <button onclick="attackWithSword()">Attack with Sword ⚔️</button>
+                    <button onclick="takeHealPotion(40)"><img src="https://cdn3.emoji.gg/emojis/5564-green-potion.png"
+                            width="50em" height="50em" alt="Green_Potion"></button>
+                    <button onclick="takeManaPotion(50)"><img src="https://cdn3.emoji.gg/emojis/5343-blue-potion.png"
+                            width="50em" height="50em" alt="Blue_Potion"></button>
+                    <button onclick="fireball()"><img src="https://cdn3.emoji.gg/emojis/3897-flame.png" width="50em"
+                            height="50em" alt="Flame"></button>
+                    <button onclick="magicSparkles(getRand(2) + 3)"><img
+                            src="https://cdn3.emoji.gg/emojis/1038-rainbow-stars.png" width="50em" height="50em"
+                            alt="rainbow_stars"></button>
+                    <button onclick="attackWithSword()"><img src="https://cdn3.emoji.gg/emojis/9997-anaklusmos.png"
+                            width="50em" height="50em" alt="anaklusmos"></button>
                 </div>
                 <div class="inventory">
                     <h3>Inventory</h3>
@@ -32,20 +39,37 @@
                         <li>Mana Potions : <span id="mana">xx</span></li>
                         <li>Sword</li>
                     </ul>
+                    <h3>Statistiques</h3>
+                    <ul>
+                        <li>Intelligence : <span>10</span></li>
+                        <li>Force : <span>5</span></li>
+                        <li>Vitality : <span>9</span></li>
+                    </ul>
+                    <div></div>
                 </div>
             </section>
             <section class="flex">
                 <div class="flex" id="player">
-                    <div class="profilHead">🧙‍♀️</div>
+                    <div class="profilHead">
+                        🧙‍♀️
+                        <p>
+                            -XX dmg
+                        </p>
+                    </div>
                     <div class="healthbar flex">
-                        <span>xx</span>
+                        <span>xx hp</span>
                     </div>
                     <div class="manabar flex">
-                        <span>xx</span>
+                        <span>xx mana</span>
                     </div>
                 </div>
                 <div class="flex" id="enemy">
-                    <div class="profilHead">👹</div>
+                    <div class="profilHead">
+                        👹
+                        <p>
+                            xx
+                        </p>
+                    </div>
                     <div class="healthbar flex">
                         <span>xx</span>
                     </div>
@@ -56,7 +80,17 @@
             </section>
             <section class="flex" id="bottomText">
                 <h3>Combat Log</h3>
-                <p></p>
+                <div>
+
+                </div>
+
+            </section>
+            <section class="flex" id="instructions">
+                <ul>
+                    <li>You have to kill your enemy before he kills you.</li>
+                    <li>Enemy attack everytime after you.</li>
+                    <li>Use potions to restore HP/MP. Potions doesn't trigger enemy's attacks.</li>
+                </ul>
             </section>
         </div>
     </main>

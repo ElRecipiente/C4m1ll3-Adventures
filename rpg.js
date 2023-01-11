@@ -1,4 +1,4 @@
-const combatLog = document.querySelector("section#bottomText p");
+const combatLog = document.querySelector("section#bottomText div");
 const actionButtons = document.querySelectorAll(".actions button");
 const playerMaxLife = 90;
 const enemyMaxLife = 70;
@@ -13,7 +13,8 @@ let enemyMana = 100;
 let healPotionStock = 3;
 let manaPotionStock = 3;
 
-combatLog.innerHTML = `Here comes a new challenger ! C4m1ll3 enters the dungeon.<br>`;
+combatLog.innerHTML = `<p>Here comes a new challenger ! C4m1ll3 enters the dungeon.</p>`;
+combatLog.scrollTop = combatLog.scrollHeight;
 
 function getRand(x) {
     return Math.floor(Math.random() * x);
@@ -30,25 +31,86 @@ function disableButtons() {
     }
 }
 
+const showPlayerDamages = document.querySelector("#player .profilHead p")
+const showEnemyDamages = document.querySelector("#enemy .profilHead p")
+
+function injectPlayerDamages(d) {
+    showEnemyDamages.classList.add("damages");
+    showEnemyDamages.innerHTML = `-${d}`;
+    setTimeout(function () {
+        showEnemyDamages.classList.remove("damages")
+    }, 2000)
+}
+
+function injectEnemyDamages(d) {
+    showPlayerDamages.classList.add("damages");
+    showPlayerDamages.innerHTML = `-${d}`;
+    setTimeout(function () {
+        showPlayerDamages.classList.remove("damages")
+    }, 2000)
+}
+
 function enemyAttack() {
     if (enemyLife <= 0) {
-        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
+        combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        combatLog.innerHTML += `<br>☠️Enemy turn begins !☠️`
-        let damages = getRand(10) + 10;
+        combatLog.innerHTML += `<p>☠️Enemy turn begins !☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+        let damages = getRand(30) + 10;
         playerLife -= damages;
-        if (damages <= 10) {
-            combatLog.innerHTML += `<br>Enemy attacked, but misses !`;
+        if (damages <= 20) {
+            playerLife += damages;
+            combatLog.innerHTML += `<p class="red">Enemy attacked, but misses !</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
         }
         else if (playerLife > 0) {
-            combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp !`;
+            combatLog.innerHTML += `<p class="red">Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp !</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
+            injectEnemyDamages(damages);
         }
         else if (playerLife <= 0) {
             playerLife = 0;
-            combatLog.innerHTML += `<br>Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp ! You die... GAME OVER.`;
+            combatLog.innerHTML += `<p class="red">Enemy attacked, dealing ${damages} damages ! C4m1ll3's life is now at ${playerLife} hp ! You die... GAME OVER.</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
+            injectEnemyDamages(damages);
         }
-        combatLog.innerHTML += `<br>🪄Your turn ! What will you do ?🪄`
+        combatLog.innerHTML += `<p>🪄Your turn ! What will you do ?🪄</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+
+        updateLife();
+    }
+}
+
+function attackWithSword() {
+    if (enemyLife <= 0) {
+        combatLog.innerHTML = `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+    }
+    else if (playerLife <= 0) {
+        combatLog.innerHTML = `<p>☠️You are DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+    }
+    else {
+        let damages = getRand(10) + 5
+        enemyLife -= damages;
+        if (enemyLife <= 0) {
+            enemyLife = 0;
+            combatLog.innerHTML = `<p>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
+        }
+        else {
+            combatLog.innerHTML = `<p>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
+        }
+
+        injectPlayerDamages(damages);
+        disableButtons();
+        setTimeout(function () {
+            enemyAttack();
+            disableButtons();
+        }, 2000);
         updateLife();
     }
 }
@@ -58,142 +120,162 @@ function spark() {
     enemyLife -= damages;
     if (enemyLife < 0) {
         enemyLife = 0;
-        combatLog.innerHTML += "<br>You made your enemy disapear in sparkles.";
+        combatLog.innerHTML += "<p>You made your enemy disapear in sparkles.</p>";
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else if (enemyLife == 0) {
-        combatLog.innerHTML += `<br>FINISHER RAINBOW SPARKLE ! Enemy's life is now at ${enemyLife} hp ! He dies !`;
+        combatLog.innerHTML += `<p>FINISHER RAINBOW SPARKLE ! Enemy's life is now at ${enemyLife} hp ! He dies !</p>`;
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        combatLog.innerHTML += `<br>Hit for ${damages} ! Enemy's life is now at ${enemyLife} hp !`;
+        combatLog.innerHTML += `<p>Hit for ${damages} ! Enemy's life is now at ${enemyLife} hp !</p>`;
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     updateLife();
+    return damages;
 }
 
-function attackWithSword() {
+function magicSparkles(nbHits) {
+    let total = 0;
     if (enemyLife <= 0) {
-        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
+        combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+    }
+    else if (playerLife <= 0) {
+        combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        let damages = getRand(15) + 5
-        enemyLife -= damages;
-        if (enemyLife <= 0) {
-            enemyLife = 0;
-            combatLog.innerHTML += `<br>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !`;
+        if (playerMana < 50) {
+            combatLog.innerHTML += `<p>You try to cast Magic Sparkles, but you don't have enough mana.\nTips : drink mana potion to recover your MP.</p>`
+            combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            combatLog.innerHTML += `<br>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.`;
-        }
-        disableButtons();
-        setTimeout(function () {
-            enemyAttack();
+            playerMana -= 50;
+            combatLog.innerHTML += `<p>You cast Magic Sparkles on your enemy !<br>COMBO ATTACK X${nbHits}</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
+            for (let i = 0; i < nbHits; i++) {
+                total += spark();
+            }
+            injectPlayerDamages(total);
             disableButtons();
-        }, 1000);
-        updateLife();
+            setTimeout(function () {
+                enemyAttack();
+                disableButtons();
+            }, 2000);
+            updateMana();
+            updateLife();
+        }
     }
 }
 
 function fireball() {
     if (enemyLife <= 0) {
-        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
+        combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+    }
+    else if (playerLife <= 0) {
+        combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
         if (playerMana < 30) {
-            combatLog.innerHTML += `<br>You try to blast a fireball, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`;
+            combatLog.innerHTML += `<p>You try to blast a fireball, but you don't have enough mana.\nTips : drink mana potion to recover your MP.</p>`;
+            combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            enemyLife /= 2;
+            damages = enemyLife / 2;
+            enemyLife -= damages;
             playerMana -= 30;
 
             if (enemyLife >= (enemyMaxLife / 2)) {
-                combatLog.innerHTML += `<br>You blast a incredible fireball in the enemy's head ! He takes ${enemyLife} damages !`;
+                combatLog.innerHTML += `<p>You blast a incredible fireball in the enemy's head ! He takes ${enemyLife} damages !</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
             }
             else {
-                combatLog.innerHTML += `<br>You blast a fireball on the enemy, but he seems to resist !`
+                combatLog.innerHTML += `<p>You blast a fireball on the enemy, but it's less effective !</p>`
+                combatLog.scrollTop = combatLog.scrollHeight;
             }
         }
+        injectPlayerDamages(damages);
         disableButtons();
         setTimeout(function () {
             enemyAttack();
             disableButtons();
-        }, 1000);
-        updateLife();
+        }, 2000);
         updateMana();
+        updateLife();
     }
 }
 
 function takeHealPotion(p) {
-    if (healPotionStock >= 0) {
-        healPotionStock -= 1;
-    }
-    if (healPotionStock < 0) {
-        healPotionStock = 0;
-        combatLog.innerHTML += `<br>You can't use any heal potions, you drink them all !`
+    if (playerLife <= 0) {
+        combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        playerLife += p;
-        if (playerLife == playerMaxLife) {
-            combatLog.innerHTML += `<br>Glup, taking a heal potion !<br>C4m1ll3 took a potion, her life is now full !`;
+        if (healPotionStock >= 0) {
+            healPotionStock -= 1;
         }
-        else if (playerLife > playerMaxLife) {
-            playerLife = playerMaxLife;
-            combatLog.innerHTML += `<br>Glup, taking a heal potion !<br>C4m1ll3 took a potion, but her life is allready full ! What a waste...`;
+        if (healPotionStock < 0) {
+            healPotionStock = 0;
+            combatLog.innerHTML += `<p class="green">You can't use any heal potions, you drink them all !</p>`
+            combatLog.scrollTop = combatLog.scrollHeight;
         }
-        else if (p == 40) {
+        else {
+            playerLife += p;
+            if (playerLife == playerMaxLife) {
+                combatLog.innerHTML += `<p class="green">Glup, taking a heal potion !<br>C4m1ll3 took a potion, her life is now full !</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
+            }
+            else if (playerLife > playerMaxLife) {
+                playerLife = playerMaxLife;
+                combatLog.innerHTML += `<p class="green">Glup, taking a heal potion !<br>C4m1ll3 took a potion, but her life is allready full ! What a waste...</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
+            }
+            else if (p == 40) {
 
-            combatLog.innerHTML += `<br>Glup, taking a heal potion !<br>C4m1ll3 took a potion, her life is now at ${playerLife} hp.`;
+                combatLog.innerHTML += `<p class="green">Glup, taking a heal potion !<br>C4m1ll3 took a potion, her life is now at ${playerLife} hp.</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
+            }
+            updatePotions();
+            updateLife();
         }
-        updateLife();
-        updatePotions();
     }
 }
 
 function takeManaPotion(q) {
-    if (manaPotionStock >= 0) {
-        manaPotionStock -= 1;
-    }
-    if (manaPotionStock < 0) {
-        manaPotionStock = 0;
-        combatLog.innerHTML += `<br>You can't use any mana potions, you drink them all !`
+    if (playerLife <= 0) {
+        combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        playerMana += q;
-        if (playerMana == playerMaxMana) {
-            combatLog.innerHTML += `<br>Glup, taking a mana potion !<br>C4m1ll3 took a potion, her mana is now full !`;
+        if (manaPotionStock >= 0) {
+            manaPotionStock -= 1;
         }
-        else if (playerMana > playerMaxMana) {
-            playerMana = playerMaxMana;
-            combatLog.innerHTML += `<br>Glup, taking a mana potion !<br>C4m1ll3 took a potion, but her mana is allready full ! What a waste...`;
-        }
-        else if (q == 50) {
-
-            combatLog.innerHTML += `<br>Glup, taking a mana potion !<br>C4m1ll3 took a potion, her mana is now at ${playerMana} mp.`;
-        }
-        updateMana();
-        updatePotions();
-    }
-}
-
-function magicSparkles(nbHits) {
-    if (enemyLife <= 0) {
-        combatLog.innerHTML += `<br>☠️Enemy is DEAD.☠️`
-    }
-    else {
-        if (playerMana < 50) {
-            combatLog.innerHTML += `<br>You try to cast Magic Sparkles, but you don't have enough mana.\nTips : drink mana potion to recover your MP.`
+        if (manaPotionStock < 0) {
+            manaPotionStock = 0;
+            combatLog.innerHTML += `<p class="blue">You can't use any mana potions, you drink them all !</p>`
+            combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            playerMana -= 50;
-            combatLog.innerHTML += `<br>You cast Magic Sparkles on your enemy !<br>COMBO ATTACK X${nbHits}`;
-            for (let i = 0; i < nbHits; i++) {
-                spark();
+            playerMana += q;
+            if (playerMana == playerMaxMana) {
+                combatLog.innerHTML += `<p class="blue">Glup, taking a mana potion !<br>C4m1ll3 took a potion, her mana is now full !</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
             }
-            disableButtons();
-            setTimeout(function () {
-                enemyAttack();
-                disableButtons();
-            }, 1000);
-            updateLife();
+            else if (playerMana > playerMaxMana) {
+                playerMana = playerMaxMana;
+                combatLog.innerHTML += `<p class="blue">Glup, taking a mana potion !<br>C4m1ll3 took a potion, but her mana is allready full ! What a waste...</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
+            }
+            else if (q == 50) {
+
+                combatLog.innerHTML += `<p class="blue">Glup, taking a mana potion !<br>C4m1ll3 took a potion, her mana is now at ${playerMana} mp.</p>`;
+                combatLog.scrollTop = combatLog.scrollHeight;
+            }
             updateMana();
+            updatePotions();
         }
     }
 }
