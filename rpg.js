@@ -1,11 +1,11 @@
 const combatLog = document.querySelector("section#bottomText div");
 const actionButtons = document.querySelectorAll(".actions button");
-const playerMaxLife = 90;
-const enemyMaxLife = 70;
 const playerMaxMana = 150;
 const enemyMaxMana = 100;
 const manaPotion = 50;
 const healPotion = 40;
+let playerMaxLife = 90;
+let enemyMaxLife = 70;
 let playerLife = 90;
 let enemyLife = 70;
 let playerMana = 150;
@@ -15,6 +15,30 @@ let manaPotionStock = 3;
 
 combatLog.innerHTML = `<p>Here comes a new challenger ! C4m1ll3 enters the dungeon.</p>`;
 combatLog.scrollTop = combatLog.scrollHeight;
+
+const firstEnemy = document.querySelector("#enemy1");
+const secondEnemy = document.querySelector("#enemy2");
+const thirdEnemy = document.querySelector("#enemy3");
+
+function newEnemies(e) {
+    if (e = 70) {
+        firstEnemy.classList.add("enemy");
+    }
+    else if (e <= 0) {
+        firstEnemy.classList.remove("enemy");
+        secondEnemy.classList.add("enemy");
+        enemyMaxLife = 120
+        enemyLife = 120
+    }
+    else if (e <= 0 && enemyMaxLife == 120) {
+        secondEnemy.classList.remove("enemy");
+        thirdEnemy.classList.add("enemy")
+        enemyMaxLife = 200
+        enemyLife = 200
+    }
+}
+
+newEnemies(enemyLife);
 
 function getRand(x) {
     return Math.floor(Math.random() * x);
@@ -32,7 +56,7 @@ function disableButtons() {
 }
 
 const showPlayerDamages = document.querySelector("#player .profilHead p")
-const showEnemyDamages = document.querySelector("#enemy .profilHead p")
+const showEnemyDamages = document.querySelector(".enemy .profilHead p")
 
 function injectPlayerDamages(d) {
     showEnemyDamages.classList.add("damages");
@@ -70,6 +94,9 @@ function enemyAttack() {
     if (enemyLife <= 0) {
         combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
+        newEnemies(enemyLife);
+        combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
         combatLog.innerHTML += `<p>☠️Enemy turn begins !☠️</p>`
@@ -92,20 +119,19 @@ function enemyAttack() {
             combatLog.scrollTop = combatLog.scrollHeight;
             injectEnemyDamages(damages);
         }
-        combatLog.innerHTML += `<p>🪄Your turn ! What will you do ?🪄</p>`
+        combatLog.innerHTML += `<p class="green">Your turn ! What will you do ?</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
-
         updateLife();
     }
 }
 
 function attackWithSword() {
     if (enemyLife <= 0) {
-        combatLog.innerHTML = `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else if (playerLife <= 0) {
-        combatLog.innerHTML = `<p>☠️You are DEAD.☠️</p>`
+        combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
@@ -113,11 +139,11 @@ function attackWithSword() {
         enemyLife -= damages;
         if (enemyLife <= 0) {
             enemyLife = 0;
-            combatLog.innerHTML = `<p>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !</p>`;
+            combatLog.innerHTML += `<p>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !</p>`;
             combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            combatLog.innerHTML = `<p>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.</p>`;
+            combatLog.innerHTML += `<p>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.</p>`;
             combatLog.scrollTop = combatLog.scrollHeight;
         }
 
@@ -303,9 +329,9 @@ function takeManaPotion(q) {
 }
 
 const playerLifeBar = document.querySelector("#player .healthbar");
-const enemyLifeBar = document.querySelector("#enemy .healthbar");
+const enemyLifeBar = document.querySelector(".enemy .healthbar");
 const playerManaBar = document.querySelector("#player .manabar");
-const enemyManaBar = document.querySelector("#enemy .manabar");
+const enemyManaBar = document.querySelector(".enemy .manabar");
 const nbLifePotions = document.querySelector(".inventory ul li span#heal")
 const nbManaPotions = document.querySelector(".inventory ul li span#mana")
 

@@ -75,7 +75,7 @@ section.flex {
     padding: 2em;
 }
 
-/* FIRST SECTION */
+/* BUTTON SECTION */
 section#actionsInventory {
     flex-flow: row;
     justify-content: space-between;
@@ -107,7 +107,17 @@ button {
     align-self: center;
 }
 
-/* SECOND SECTION */
+/* PLAYER/ENEMY SECTION */
+
+#enemy1, #enemy2, #enemy3 {
+    display: none;
+}
+
+.enemy#enemy1, .enemy#enemy2, .enemy#enemy3 {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
 
 .profilHead {
     font-size: 5em;
@@ -186,7 +196,7 @@ button {
     }
 }
 
-#enemy .profilHead p {
+.enemy .profilHead p {
     color: red;
     font-size: initial;
     position: absolute;
@@ -195,7 +205,7 @@ button {
     right: 40%;
 }
 
-#enemy .profilHead p.damages {
+.enemy .profilHead p.damages {
     animation: hit 2s;
 }
 
@@ -227,7 +237,7 @@ button {
     text-align: center;
 }
 
-/* THIRD SECTION */
+/* COMBAT LOG SECTION */
 section#bottomText {
     width: 40%;
     height: 15em;
@@ -252,14 +262,14 @@ section#bottomText p {
     font-size: smaller;
 }
 
-/* FOURTH SECTION */
+/* RULES SECTION */
 
 section#instructions {
     margin-left: auto;
 }
 
-/* FIFTH SECTION */
+/* INFOBULLES SECTION */
 
-section.infobulles [
-
-]
+section.infobulles {
+    background: green;
+}
