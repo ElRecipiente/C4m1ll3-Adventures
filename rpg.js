@@ -24,20 +24,24 @@ const secondEnemy = document.getElementById("enemy2");
 const thirdEnemy = document.getElementById("enemy3");
 
 function newEnemies(e) {
-    if (e = 70) {
+    if (e == 70) {
         firstEnemy.classList.add("enemy");
     }
-    else if (e <= 0) {
+    else if (e == 0 && enemyMaxLife != 120) {
         firstEnemy.classList.remove("enemy");
-        secondEnemy.classList.add("enemy");
+        secondEnemy.classList.add("enemy")
         enemyMaxLife = 120
         enemyLife = 120
+        updateLife();
+        updateMana();
     }
-    else if (e <= 0 && enemyMaxLife == 120) {
+    else if (e == 0 && enemyMaxLife == 120) {
         secondEnemy.classList.remove("enemy");
         thirdEnemy.classList.add("enemy")
         enemyMaxLife = 200
         enemyLife = 200
+        updateLife();
+        updateMana();
     }
 }
 
@@ -95,6 +99,7 @@ function injectEnemyDamages(d) {
 
 function enemyAttack() {
     if (enemyLife <= 0) {
+        enemyLife = 0;
         combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
         newEnemies(enemyLife);
