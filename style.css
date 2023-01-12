@@ -61,7 +61,6 @@ header h1, header p {
 
 /* SECTION */
 section {
-    background: black;
     margin: 1em 0;
     border-radius: 1em;
 }
@@ -79,8 +78,7 @@ section.flex {
 section#actionsInventory {
     flex-flow: row;
     justify-content: space-around;
-    background: rgb(0, 0, 0);
-    opacity: 90%;
+    opacity: 80%;
 }
 
 .actions {
@@ -89,6 +87,7 @@ section#actionsInventory {
     display: flex;
     flex-flow: column;
     width: fit-content;
+    padding: 2em;
 }
 
 .inventory {
@@ -98,6 +97,7 @@ section#actionsInventory {
     flex-flow: column;
     justify-content: space-between;
     width: 30%;
+    padding: 2em;
 }
 
 button {
@@ -109,7 +109,8 @@ button {
 /* PLAYER/ENEMY SECTION */
 
 .versus {
-    opacity: 90%;
+    background: black;
+    opacity: 80%;
 }
 
 #enemy1, #enemy2, #enemy3 {
