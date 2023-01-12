@@ -3,7 +3,7 @@ Palette de couleurs :
 https://coolors.co/272838-f3de8a-eb9486-7e7f9a-f9f8f8
 */
 body {
-    background: rgb(0, 0, 0);
+    background-image: url("https://cdnb.artstation.com/p/assets/images/images/020/079/417/large/rob-simpson-relight-02.jpg?1566281283");
     color: white;
     font-family: Arial, sans-serif;
   }
@@ -61,7 +61,7 @@ header h1, header p {
 
 /* SECTION */
 section {
-    background: #272838;
+    background: black;
     margin: 1em 0;
     border-radius: 1em;
 }
@@ -78,27 +78,26 @@ section.flex {
 /* BUTTON SECTION */
 section#actionsInventory {
     flex-flow: row;
-    justify-content: space-between;
+    justify-content: space-around;
     background: rgb(0, 0, 0);
+    opacity: 90%;
 }
 
 .actions {
-    background: #272838;
+    background: black;
     border-radius: 1em;
     display: flex;
     flex-flow: column;
-    width: 40%;
-    padding: 1em;
+    width: fit-content;
 }
 
 .inventory {
-    background: #272838;
+    background: black;
     border-radius: 1em;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
-    width: 40%;
-    padding: 1em;
+    width: 30%;
 }
 
 button {
@@ -108,6 +107,10 @@ button {
 }
 
 /* PLAYER/ENEMY SECTION */
+
+.versus {
+    opacity: 90%;
+}
 
 #enemy1, #enemy2, #enemy3 {
     display: none;
@@ -239,19 +242,19 @@ button {
 
 /* COMBAT LOG SECTION */
 section#bottomText {
-    width: 40%;
-    height: 15em;
+    width: 30%;
+    height: 10em;
     justify-content: space-between;
     position: absolute;
     bottom: 0;
     opacity: 50%;
-    background: rgb(0, 0, 0);
+    background: black;
     transition: 2s;
 }
 
 section#bottomText:hover {
     opacity: 100%;
-    background: #141414;
+    background: black;
 }
 
 section#bottomText div{
@@ -266,10 +269,28 @@ section#bottomText p {
 
 section#instructions {
     margin-left: auto;
+    opacity: 90%;
 }
 
 /* INFOBULLES SECTION */
 
-section.infobulles {
-    background: green;
+.infobulles {
+    position: relative;
+}
+
+.infobulle {
+    position: absolute;
+    background: black;
+    width: 250%;
+    height: auto;
+    padding: 1em;
+    opacity: 0%;
+    left: -15em;
+    top: 0;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.infobulles:hover .infobulle {
+    opacity: 90%;
 }

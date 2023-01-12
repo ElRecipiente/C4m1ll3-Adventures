@@ -20,17 +20,60 @@
             <section class="flex" id="actionsInventory">
                 <div class="actions">
                     <h3>Actions</h3>
-                    <button onclick="takeHealPotion(40)"><img src="https://cdn3.emoji.gg/emojis/5564-green-potion.png"
-                            width="50em" height="50em" alt="Green_Potion"></button>
-                    <button onclick="takeManaPotion(50)"><img src="https://cdn3.emoji.gg/emojis/5343-blue-potion.png"
-                            width="50em" height="50em" alt="Blue_Potion"></button>
-                    <button onclick="fireball()"><img src="https://cdn3.emoji.gg/emojis/3897-flame.png" width="50em"
-                            height="50em" alt="Flame"></button>
-                    <button onclick="magicSparkles(getRand(2) + 3)"><img
-                            src="https://cdn3.emoji.gg/emojis/1038-rainbow-stars.png" width="50em" height="50em"
-                            alt="rainbow_stars"></button>
-                    <button onclick="attackWithSword()"><img src="https://cdn3.emoji.gg/emojis/9997-anaklusmos.png"
-                            width="50em" height="50em" alt="anaklusmos"></button>
+
+                    <div class="infobulles">
+                        <div class="infobulle healP">
+                            <h4>Health Potions</h4>
+                            Restore <span class="green">40 HP</span> when used.
+                        </div>
+                        <button onclick="takeHealPotion(40)"><img
+                                src="https://cdn3.emoji.gg/emojis/5564-green-potion.png" width="50em" height="50em"
+                                alt="Green_Potion"></button>
+                    </div>
+                    <div class="infobulles">
+                        <div class="infobulle manaP">
+                            <h4>Mana Potions</h4>
+                            Restore <span class="blue">50 MP</span> when used.
+                        </div>
+                        <button onclick="takeManaPotion(50)"><img
+                                src="https://cdn3.emoji.gg/emojis/5343-blue-potion.png" width="50em" height="50em"
+                                alt="Blue_Potion"></button>
+                    </div>
+                    <div class="infobulles">
+                        <div class="infobulle fireB">
+                            <h4>Fireball</h4>
+                            <span class="blue">30MP</span>
+                            <br>A powerful ball of fire. Deal <span class="red">half actual enemy's life </span><span
+                                class="green">(+ your Intelligence) </span><span class="red">damages</span> when cast.
+                            Powerful to engage a fight.
+                        </div>
+                        <button onclick="fireball()"><img src="https://cdn3.emoji.gg/emojis/3897-flame.png" width="50em"
+                                height="50em" alt="Flame"></button>
+                    </div>
+                    <div class="infobulles">
+                        <div class="infobulle magicS">
+                            <h4>Magic Sparkles</h4>
+                            <span class="blue">50MP</span>
+                            <br>You cast 3 to 5 bolts of pur mana, dealing <span class="red">5</span><span
+                                class="green">(+
+                                half of your Intelligence) </span><span class="red">damages</span> when cast. That's a
+                            lot
+                            of mana.
+                        </div>
+                        <button onclick="magicSparkles(getRand(2) + 3)"><img
+                                src="https://cdn3.emoji.gg/emojis/1038-rainbow-stars.png" width="50em" height="50em"
+                                alt="rainbow_stars"></button>
+                    </div>
+                    <div class="infobulles">
+                        <div class="infobulle swordA">
+                            <h4>Sword attack</h4>
+                            A powerful strike with your sword !...For a mage. Deal <span class="red">10</span><span
+                                class="green">(+ your Force) </span><span class="red">damages</span> when attack.
+                            <br>Weak, but doesn't cost any mana.
+                        </div>
+                        <button onclick="attackWithSword()"><img src="https://cdn3.emoji.gg/emojis/9997-anaklusmos.png"
+                                width="50em" height="50em" alt="anaklusmos"></button>
+                    </div>
                 </div>
                 <div class="inventory">
                     <h3>Inventory</h3>
@@ -48,7 +91,7 @@
                     <div></div>
                 </div>
             </section>
-            <section class="flex">
+            <section class="flex versus">
                 <div class="flex" id="player">
                     <div class="profilHead">
                         🧙‍♀️
@@ -119,9 +162,6 @@
                     <li>Enemy attack everytime after you.</li>
                     <li>Use potions to restore HP/MP. Potions doesn't trigger enemy's attacks.</li>
                 </ul>
-            </section>
-            <section class="infobulles">
-
             </section>
         </div>
     </main>

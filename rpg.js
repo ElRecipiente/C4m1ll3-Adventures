@@ -4,7 +4,10 @@ const playerMaxMana = 150;
 const enemyMaxMana = 100;
 const manaPotion = 50;
 const healPotion = 40;
-let playerMaxLife = 90;
+const intelligence = 10;
+const force = 5;
+const vitality = 9;
+let playerMaxLife = vitality * 10;
 let enemyMaxLife = 70;
 let playerLife = 90;
 let enemyLife = 70;
@@ -16,9 +19,9 @@ let manaPotionStock = 3;
 combatLog.innerHTML = `<p>Here comes a new challenger ! C4m1ll3 enters the dungeon.</p>`;
 combatLog.scrollTop = combatLog.scrollHeight;
 
-const firstEnemy = document.querySelector("#enemy1");
-const secondEnemy = document.querySelector("#enemy2");
-const thirdEnemy = document.querySelector("#enemy3");
+const firstEnemy = document.getElementById("enemy1");
+const secondEnemy = document.getElementById("enemy2");
+const thirdEnemy = document.getElementById("enemy3");
 
 function newEnemies(e) {
     if (e = 70) {
@@ -135,7 +138,7 @@ function attackWithSword() {
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        let damages = getRand(10) + 5
+        let damages = getRand(10) + force;
         enemyLife -= damages;
         if (enemyLife <= 0) {
             enemyLife = 0;
@@ -158,7 +161,7 @@ function attackWithSword() {
 }
 
 function spark() {
-    let damages = getRand(5) + 5;
+    let damages = getRand(5) + (0.5 * intelligence);
     enemyLife -= damages;
     if (enemyLife < 0) {
         enemyLife = 0;
@@ -226,7 +229,7 @@ function fireball() {
             combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            damages = enemyLife / 2;
+            damages = (enemyLife / 2) + intelligence;
             enemyLife -= damages;
             playerMana -= 30;
 
