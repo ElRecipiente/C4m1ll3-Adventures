@@ -144,6 +144,48 @@ button {
     }
 }
 
+#player .profilHead p.healPotions {
+    color: green;
+    animation: heal 2s;
+}
+
+@keyframes heal {
+    0% {
+        opacity: 100%;
+        scale: 200%;
+    }
+    10% {
+        opacity: 100%;
+        top: 0;
+        scale: 100%;
+    }
+    100% {
+        opacity: 0%;
+        top: -40%;
+    }
+}
+
+#player .profilHead p.manaPotions {
+    color: blue;
+    animation: mana 2s;
+}
+
+@keyframes mana {
+    0% {
+        opacity: 100%;
+        scale: 200%;
+    }
+    10% {
+        opacity: 100%;
+        top: 0;
+        scale: 100%;
+    }
+    100% {
+        opacity: 0%;
+        top: -40%;
+    }
+}
+
 #enemy .profilHead p {
     color: red;
     font-size: initial;
@@ -199,7 +241,7 @@ section#bottomText {
 
 section#bottomText:hover {
     opacity: 100%;
-    /* background: #272838; */
+    background: #141414;
 }
 
 section#bottomText div{
@@ -210,8 +252,14 @@ section#bottomText p {
     font-size: smaller;
 }
 
-/* LAST SECTION */
+/* FOURTH SECTION */
 
 section#instructions {
     margin-left: auto;
 }
+
+/* FIFTH SECTION */
+
+section.infobulles [
+
+]

@@ -42,6 +42,22 @@ function injectPlayerDamages(d) {
     }, 2000)
 }
 
+function injectHealPotions(p) {
+    showPlayerDamages.classList.add("healPotions");
+    showPlayerDamages.innerHTML = `+${p}`;
+    setTimeout(function () {
+        showPlayerDamages.classList.remove("healPotions")
+    }, 2000)
+}
+
+function injectManaPotions(p) {
+    showPlayerDamages.classList.add("manaPotions");
+    showPlayerDamages.innerHTML = `+${p}`;
+    setTimeout(function () {
+        showPlayerDamages.classList.remove("manaPotions")
+    }, 2000)
+}
+
 function injectEnemyDamages(d) {
     showPlayerDamages.classList.add("damages");
     showPlayerDamages.innerHTML = `-${d}`;
@@ -209,6 +225,7 @@ function fireball() {
 }
 
 function takeHealPotion(p) {
+    injectHealPotions(p);
     if (playerLife <= 0) {
         combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
@@ -240,11 +257,14 @@ function takeHealPotion(p) {
             }
             updatePotions();
             updateLife();
+            disableButtons();
+            setTimeout(disableButtons,2000);
         }
     }
 }
 
 function takeManaPotion(q) {
+    injectManaPotions(q);
     if (playerLife <= 0) {
         combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
@@ -276,6 +296,8 @@ function takeManaPotion(q) {
             }
             updateMana();
             updatePotions();
+            disableButtons();
+            setTimeout(disableButtons,2000);
         }
     }
 }
