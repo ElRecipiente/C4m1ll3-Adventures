@@ -3,7 +3,7 @@ const actionButtons = document.querySelectorAll(".actions button");
 const manaPotion = 50;
 const healPotion = 40;
 let intelligence = 10;
-let force = 5;
+let strengh = 5;
 let vitality = 9;
 let playerMaxMana = 150;
 let enemyMaxMana = 100;
@@ -25,22 +25,32 @@ const targetEnemy = document.querySelector(".enemy .profilHead")
 
 function newEnemies(e) {
     if (e == 0 && enemyMaxLife != 120 && enemyMaxLife != 200) {
-        targetEnemy.innerHTML = `<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9ac6224d-074e-4d19-b1ff-f4fbcf7732b8/d9xbfa3-c003dc03-ef8a-4497-9f0d-6e6035eeeabe.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzlhYzYyMjRkLTA3NGUtNGQxOS1iMWZmLWY0ZmJjZjc3MzJiOFwvZDl4YmZhMy1jMDAzZGMwMy1lZjhhLTQ0OTctOWYwZC02ZTYwMzVlZWVhYmUuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Puk3xcSXHb1f4pceBKjphchmPS7XYo-yuPtL9PJkbBs" width="25%">`
+        targetEnemy.innerHTML = `<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9ac6224d-074e-4d19-b1ff-f4fbcf7732b8/d9xbfa3-c003dc03-ef8a-4497-9f0d-6e6035eeeabe.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzlhYzYyMjRkLTA3NGUtNGQxOS1iMWZmLWY0ZmJjZjc3MzJiOFwvZDl4YmZhMy1jMDAzZGMwMy1lZjhhLTQ0OTctOWYwZC02ZTYwMzVlZWVhYmUuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Puk3xcSXHb1f4pceBKjphchmPS7XYo-yuPtL9PJkbBs" width="25%"><p></p>`
         enemyMaxLife = 120
         enemyLife = 120
         updateLife();
         updateMana();
         combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`;
         combatLog.scrollTop = combatLog.scrollHeight;
+
+        showPlayerDamages = document.querySelector("#player .profilHead p");
+        playerShadow = document.querySelector("#player .profilHead img");
+        showEnemyDamages = document.querySelector(".enemy .profilHead p");
+        enemyShadow = document.querySelector(".enemy .profilHead img");
     }
     else if (e == 0 && enemyMaxLife == 120 && enemyMaxLife != 200) {
-        targetEnemy.innerHTML = `<img src="https://images6.fanpop.com/image/photos/36900000/Bi-japanese-monster-movies-36925599-500-476.gif" width="40%">`
+        targetEnemy.innerHTML = `<img src="https://images6.fanpop.com/image/photos/36900000/Bi-japanese-monster-movies-36925599-500-476.gif" width="40%"><p></p>`
         enemyMaxLife = 200
         enemyLife = 200
         updateLife();
         updateMana();
         combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`;
         combatLog.scrollTop = combatLog.scrollHeight;
+
+        showPlayerDamages = document.querySelector("#player .profilHead p");
+        playerShadow = document.querySelector("#player .profilHead img");
+        showEnemyDamages = document.querySelector(".enemy .profilHead p");
+        enemyShadow = document.querySelector(".enemy .profilHead img");
     }
     else if (e == 0 && enemyMaxLife == 200 && enemyMaxLife != !120) {
         firstEnemy.classList.remove("enemy");
@@ -57,7 +67,23 @@ function getTreasure() {
     combatLog.innerHTML += `<p class="yellow">You find 300 golds !</p>`;
     combatLog.scrollTop = combatLog.scrollHeight;
     // add gold to inventory
-    golds.innerHTML += `<li>Golds : 300</li>`
+    golds.innerHTML += `<li>Golds : 300</li>`;
+    setTimeout(() => {
+        document.querySelector("#treasure .profilHead").innerHTML += `<button onclick="merchant(0)">Merchant</button>`;
+        combatLog.innerHTML += `<p class="yellow">You have now access to the shop !</p>`;
+        combatLog.scrollTop = combatLog.scrollHeight;
+    }, 3000);
+}
+
+function merchant(m) {
+    if (m == 0) {
+        m = 1;
+        const shop = document.querySelector("section.versus")
+        shop.innerHTML += `<div class="merchant"><h3>SHOP</h3><img src ="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ee34f51d-eb2c-4fd0-8047-260ae0417996/dccor7t-a950b988-b375-46f8-8c78-458e132dd4cc.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2VlMzRmNTFkLWViMmMtNGZkMC04MDQ3LTI2MGFlMDQxNzk5NlwvZGNjb3I3dC1hOTUwYjk4OC1iMzc1LTQ2ZjgtOGM3OC00NThlMTMyZGQ0Y2MuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.MDcAf4fh_8Mri_fIZfhMN1qCazRBBrXYz6lmjMmpxcg" alt="merchant" width="auto"><div>`
+    }
+    else {
+        m = 0
+    }
 }
 
 function getRand(x) {
@@ -75,14 +101,18 @@ function disableButtons() {
     }
 }
 
-const showPlayerDamages = document.querySelector("#player .profilHead p")
-const showEnemyDamages = document.querySelector(".enemy .profilHead p")
+let showPlayerDamages = document.querySelector("#player .profilHead p");
+let playerShadow = document.querySelector("#player .profilHead img");
+let showEnemyDamages = document.querySelector(".enemy .profilHead p");
+let enemyShadow = document.querySelector(".enemy .profilHead img");
 
 function injectPlayerDamages(d) {
     showEnemyDamages.classList.add("damages");
+    enemyShadow.classList.add("damages");
     showEnemyDamages.innerHTML = `-${d}`;
     setTimeout(function () {
-        showEnemyDamages.classList.remove("damages")
+        showEnemyDamages.classList.remove("damages");
+        enemyShadow.classList.remove("damages");
     }, 2000)
 }
 
@@ -104,9 +134,11 @@ function injectManaPotions(p) {
 
 function injectEnemyDamages(d) {
     showPlayerDamages.classList.add("damages");
+    playerShadow.classList.add("damages");
     showPlayerDamages.innerHTML = `-${d}`;
     setTimeout(function () {
-        showPlayerDamages.classList.remove("damages")
+        showPlayerDamages.classList.remove("damages");
+        playerShadow.classList.remove("damages");
     }, 2000)
 }
 
@@ -154,7 +186,7 @@ function attackWithSword() {
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        let damages = (getRand(10) + 1) + force;
+        let damages = (getRand(10) + 1) + strengh;
         enemyLife -= damages;
         if (enemyLife <= 0) {
             enemyLife = 0;
