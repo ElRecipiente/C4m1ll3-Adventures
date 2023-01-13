@@ -54,9 +54,9 @@
                         <div class="infobulle magicS">
                             <h4>Magic Sparkles</h4>
                             <span class="blue">50MP</span>
-                            <br>You cast 3 to 5 bolts of pur mana, dealing <span class="red">5</span><span
-                                class="green">(+
-                                half of your Intelligence) </span><span class="red">damages</span> when cast. That's a
+                            <br>You cast 3 to 5 bolts of pur mana, dealing <span class="red">1-5</span><span
+                                class="green"> (+ your Intelligence) </span><span class="red">damages</span> when cast.
+                            That's a
                             lot
                             of mana.
                         </div>
@@ -67,8 +67,8 @@
                     <div class="infobulles">
                         <div class="infobulle swordA">
                             <h4>Sword attack</h4>
-                            A powerful strike with your sword !...For a mage. Deal <span class="red">10</span><span
-                                class="green">(+ your Force) </span><span class="red">damages</span> when attack.
+                            A powerful strike with your sword !...For a mage. Deal <span class="red">1-10</span><span
+                                class="green"> (+ your Force) </span><span class="red">damages</span> when attack.
                             <br>Weak, but doesn't cost any mana.
                         </div>
                         <button onclick="attackWithSword()"><img src="https://cdn3.emoji.gg/emojis/9997-anaklusmos.png"
@@ -94,7 +94,8 @@
             <section class="flex versus">
                 <div class="flex" id="player">
                     <div class="profilHead">
-                        🧙‍♀️
+                        <img src="https://64.media.tumblr.com/e7b905d478d232b7f5fd251d99a23d3a/tumblr_nmu45nvtsu1shvf37o1_500.gifv"
+                            alt="C4m1ll3 img" width="25%">
                         <p>
                             -xx dmg
                         </p>
@@ -106,9 +107,10 @@
                         <span>xx mana</span>
                     </div>
                 </div>
-                <div id="enemy1">
+                <div class="enemy" id="enemy1">
                     <div class="profilHead">
-                        👹
+                        <img src="https://cdn.gamedevmarket.net/wp-content/uploads/20191203193414/df40ac67288c750b6c22fc915450925737e9dbfb.gif"
+                            alt="pumpkinMonster" width="35%">
                         <p>
                             -xx dmg
                         </p>
@@ -120,32 +122,10 @@
                         <span>xx mana</span>
                     </div>
                 </div>
-                <div id="enemy2">
+                <div id="treasure">
                     <div class="profilHead">
-                        👺
-                        <p>
-                            -xx dmg
-                        </p>
-                    </div>
-                    <div class="healthbar flex">
-                        <span>xx hp</span>
-                    </div>
-                    <div class="manabar flex">
-                        <span>xx mana</span>
-                    </div>
-                </div>
-                <div id="enemy3">
-                    <div class="profilHead">
-                        👾
-                        <p>
-                            -xx dmg
-                        </p>
-                    </div>
-                    <div class="healthbar flex">
-                        <span>xx hp</span>
-                    </div>
-                    <div class="manabar flex">
-                        <span>xx mana</span>
+                        <img onclick="getTreasure()" src="https://cdn3.emoji.gg/emojis/7344-stardewtreasure.png"
+                            width="175em" height="175em" alt="StardewTreasure">
                     </div>
                 </div>
             </section>

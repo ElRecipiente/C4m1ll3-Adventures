@@ -1,12 +1,12 @@
 const combatLog = document.querySelector("section#bottomText div");
 const actionButtons = document.querySelectorAll(".actions button");
-const playerMaxMana = 150;
-const enemyMaxMana = 100;
 const manaPotion = 50;
 const healPotion = 40;
-const intelligence = 10;
-const force = 5;
-const vitality = 9;
+let intelligence = 10;
+let force = 5;
+let vitality = 9;
+let playerMaxMana = 150;
+let enemyMaxMana = 100;
 let playerMaxLife = vitality * 10;
 let enemyMaxLife = 70;
 let playerLife = 90;
@@ -20,32 +20,45 @@ combatLog.innerHTML = `<p>Here comes a new challenger ! C4m1ll3 enters the dunge
 combatLog.scrollTop = combatLog.scrollHeight;
 
 const firstEnemy = document.getElementById("enemy1");
-const secondEnemy = document.getElementById("enemy2");
-const thirdEnemy = document.getElementById("enemy3");
+const treasure = document.getElementById("treasure")
+const targetEnemy = document.querySelector(".enemy .profilHead")
 
 function newEnemies(e) {
-    if (e == 70) {
-        firstEnemy.classList.add("enemy");
-    }
-    else if (e == 0 && enemyMaxLife != 120) {
-        firstEnemy.classList.remove("enemy");
-        secondEnemy.classList.add("enemy")
+    if (e == 0 && enemyMaxLife != 120 && enemyMaxLife != 200) {
+        targetEnemy.innerHTML = `<img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9ac6224d-074e-4d19-b1ff-f4fbcf7732b8/d9xbfa3-c003dc03-ef8a-4497-9f0d-6e6035eeeabe.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzlhYzYyMjRkLTA3NGUtNGQxOS1iMWZmLWY0ZmJjZjc3MzJiOFwvZDl4YmZhMy1jMDAzZGMwMy1lZjhhLTQ0OTctOWYwZC02ZTYwMzVlZWVhYmUuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.Puk3xcSXHb1f4pceBKjphchmPS7XYo-yuPtL9PJkbBs" width="25%">`
         enemyMaxLife = 120
         enemyLife = 120
         updateLife();
         updateMana();
+        combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`;
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
-    else if (e == 0 && enemyMaxLife == 120) {
-        secondEnemy.classList.remove("enemy");
-        thirdEnemy.classList.add("enemy")
+    else if (e == 0 && enemyMaxLife == 120 && enemyMaxLife != 200) {
+        targetEnemy.innerHTML = `<img src="https://images6.fanpop.com/image/photos/36900000/Bi-japanese-monster-movies-36925599-500-476.gif" width="40%">`
         enemyMaxLife = 200
         enemyLife = 200
         updateLife();
         updateMana();
+        combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`;
+        combatLog.scrollTop = combatLog.scrollHeight;
+    }
+    else if (e == 0 && enemyMaxLife == 200 && enemyMaxLife != !120) {
+        firstEnemy.classList.remove("enemy");
+        treasure.classList.add("enemy");
+        combatLog.innerHTML += `<p class="yellow">CONGRATULATIONS ! You got the boss's treasure ! CLIC to OPEN !</p>`;
+        combatLog.scrollTop = combatLog.scrollHeight;
     }
 }
 
-newEnemies(enemyLife);
+let golds = document.querySelector(".inventory ul")
+
+function getTreasure() {
+    document.querySelector("#treasure .profilHead").innerHTML = `<video src="vid/goldCoinAnimation.mp4" autoplay muted loop width="70%" height="70%">gold coin</video>`
+    combatLog.innerHTML += `<p class="yellow">You find 300 golds !</p>`;
+    combatLog.scrollTop = combatLog.scrollHeight;
+    // add gold to inventory
+    golds.innerHTML += `<li>Golds : 300</li>`
+}
 
 function getRand(x) {
     return Math.floor(Math.random() * x);
@@ -103,8 +116,6 @@ function enemyAttack() {
         combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
         newEnemies(enemyLife);
-        combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`
-        combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
         combatLog.innerHTML += `<p>☠️Enemy turn begins !☠️</p>`
@@ -143,7 +154,7 @@ function attackWithSword() {
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        let damages = getRand(10) + force;
+        let damages = (getRand(10) + 1) + force;
         enemyLife -= damages;
         if (enemyLife <= 0) {
             enemyLife = 0;
@@ -166,7 +177,7 @@ function attackWithSword() {
 }
 
 function spark() {
-    let damages = getRand(5) + (0.5 * intelligence);
+    let damages = (getRand(5) + 1) + (intelligence);
     enemyLife -= damages;
     if (enemyLife < 0) {
         enemyLife = 0;
@@ -238,12 +249,12 @@ function fireball() {
             enemyLife -= damages;
             playerMana -= 30;
 
-            if (enemyLife >= (enemyMaxLife / 2)) {
-                combatLog.innerHTML += `<p>You blast a incredible fireball in the enemy's head ! He takes ${enemyLife} damages !</p>`;
+            if (enemyLife >= (enemyMaxLife / 3)) {
+                combatLog.innerHTML += `<p>You blast a incredible fireball in the enemy's head ! He takes ${damages} damages !</p>`;
                 combatLog.scrollTop = combatLog.scrollHeight;
             }
             else {
-                combatLog.innerHTML += `<p>You blast a fireball on the enemy, but it's less effective !</p>`
+                combatLog.innerHTML += `<p>You blast a fireball on the enemy, dealing ${damages} damages. It's less effective !</p>`
                 combatLog.scrollTop = combatLog.scrollHeight;
             }
         }
@@ -292,7 +303,7 @@ function takeHealPotion(p) {
             updatePotions();
             updateLife();
             disableButtons();
-            setTimeout(disableButtons,2000);
+            setTimeout(disableButtons, 2000);
         }
     }
 }
@@ -331,7 +342,7 @@ function takeManaPotion(q) {
             updateMana();
             updatePotions();
             disableButtons();
-            setTimeout(disableButtons,2000);
+            setTimeout(disableButtons, 2000);
         }
     }
 }

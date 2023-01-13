@@ -7,6 +7,11 @@ body {
     color: white;
     font-family: Arial, sans-serif;
   }
+
+video {
+    z-index: 100;
+}
+
 .red {
     color: red;
 }
@@ -17,6 +22,10 @@ body {
 
 .blue {
     color: rgb(0, 183, 255);
+}
+
+.yellow {
+    color: rgb(255, 217, 0);
 }
 
 .flex {
@@ -106,10 +115,6 @@ button {
     align-self: center;
 }
 
-button#1:hover{
-    
-}
-
 /* PLAYER/ENEMY SECTION */
 
 .versus {
@@ -117,11 +122,11 @@ button#1:hover{
     opacity: 80%;
 }
 
-#enemy1, #enemy2, #enemy3 {
+#enemy1, #treasure {
     display: none;
 }
 
-.enemy#enemy1, .enemy#enemy2, .enemy#enemy3 {
+.enemy#enemy1, .enemy#treasure {
     display: flex;
     flex-flow: column;
     justify-content: space-between;
@@ -248,13 +253,14 @@ button#1:hover{
 /* COMBAT LOG SECTION */
 section#bottomText {
     width: 30%;
-    height: 10em;
+    height: 15em;
     justify-content: space-between;
     position: absolute;
     bottom: 0;
     opacity: 50%;
     background: black;
     transition: 2s;
+    padding-top: 0;
 }
 
 section#bottomText:hover {
