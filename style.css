@@ -3,7 +3,7 @@ Palette de couleurs :
 https://coolors.co/272838-f3de8a-eb9486-7e7f9a-f9f8f8
 */
 body {
-    background: rgb(0, 0, 0);
+    background-image: url("https://cdnb.artstation.com/p/assets/images/images/020/079/417/large/rob-simpson-relight-02.jpg?1566281283");
     color: white;
     font-family: Arial, sans-serif;
   }
@@ -61,7 +61,6 @@ header h1, header p {
 
 /* SECTION */
 section {
-    background: #272838;
     margin: 1em 0;
     border-radius: 1em;
 }
@@ -75,30 +74,30 @@ section.flex {
     padding: 2em;
 }
 
-/* FIRST SECTION */
+/* BUTTON SECTION */
 section#actionsInventory {
     flex-flow: row;
-    justify-content: space-between;
-    background: rgb(0, 0, 0);
+    justify-content: space-around;
+    opacity: 80%;
 }
 
 .actions {
-    background: #272838;
+    background: black;
     border-radius: 1em;
     display: flex;
     flex-flow: column;
-    width: 40%;
-    padding: 1em;
+    width: fit-content;
+    padding: 2em;
 }
 
 .inventory {
-    background: #272838;
+    background: black;
     border-radius: 1em;
     display: flex;
     flex-flow: column;
     justify-content: space-between;
-    width: 40%;
-    padding: 1em;
+    width: 30%;
+    padding: 2em;
 }
 
 button {
@@ -111,7 +110,22 @@ button#1:hover{
     
 }
 
-/* SECOND SECTION */
+/* PLAYER/ENEMY SECTION */
+
+.versus {
+    background: black;
+    opacity: 80%;
+}
+
+#enemy1, #enemy2, #enemy3 {
+    display: none;
+}
+
+.enemy#enemy1, .enemy#enemy2, .enemy#enemy3 {
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
 
 .profilHead {
     font-size: 5em;
@@ -148,7 +162,49 @@ button#1:hover{
     }
 }
 
-#enemy .profilHead p {
+#player .profilHead p.healPotions {
+    color: green;
+    animation: heal 2s;
+}
+
+@keyframes heal {
+    0% {
+        opacity: 100%;
+        scale: 200%;
+    }
+    10% {
+        opacity: 100%;
+        top: 0;
+        scale: 100%;
+    }
+    100% {
+        opacity: 0%;
+        top: -40%;
+    }
+}
+
+#player .profilHead p.manaPotions {
+    color: blue;
+    animation: mana 2s;
+}
+
+@keyframes mana {
+    0% {
+        opacity: 100%;
+        scale: 200%;
+    }
+    10% {
+        opacity: 100%;
+        top: 0;
+        scale: 100%;
+    }
+    100% {
+        opacity: 0%;
+        top: -40%;
+    }
+}
+
+.enemy .profilHead p {
     color: red;
     font-size: initial;
     position: absolute;
@@ -157,7 +213,7 @@ button#1:hover{
     right: 40%;
 }
 
-#enemy .profilHead p.damages {
+.enemy .profilHead p.damages {
     animation: hit 2s;
 }
 
@@ -189,21 +245,21 @@ button#1:hover{
     text-align: center;
 }
 
-/* THIRD SECTION */
+/* COMBAT LOG SECTION */
 section#bottomText {
-    width: 40%;
-    height: 15em;
+    width: 30%;
+    height: 10em;
     justify-content: space-between;
     position: absolute;
     bottom: 0;
     opacity: 50%;
-    background: rgb(0, 0, 0);
+    background: black;
     transition: 2s;
 }
 
 section#bottomText:hover {
     opacity: 100%;
-    /* background: #272838; */
+    background: black;
 }
 
 section#bottomText div{
@@ -214,8 +270,32 @@ section#bottomText p {
     font-size: smaller;
 }
 
-/* LAST SECTION */
+/* RULES SECTION */
 
 section#instructions {
     margin-left: auto;
+    opacity: 90%;
+}
+
+/* INFOBULLES SECTION */
+
+.infobulles {
+    position: relative;
+}
+
+.infobulle {
+    position: absolute;
+    background: black;
+    width: 250%;
+    height: auto;
+    padding: 1em;
+    opacity: 0%;
+    left: -15em;
+    top: 0;
+    transition: 0.2s;
+    z-index: 10;
+}
+
+.infobulles:hover .infobulle {
+    opacity: 90%;
 }

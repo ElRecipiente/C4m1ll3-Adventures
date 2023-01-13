@@ -1,11 +1,14 @@
 const combatLog = document.querySelector("section#bottomText div");
 const actionButtons = document.querySelectorAll(".actions button");
-const playerMaxLife = 90;
-const enemyMaxLife = 70;
 const playerMaxMana = 150;
 const enemyMaxMana = 100;
 const manaPotion = 50;
 const healPotion = 40;
+const intelligence = 10;
+const force = 5;
+const vitality = 9;
+let playerMaxLife = vitality * 10;
+let enemyMaxLife = 70;
 let playerLife = 90;
 let enemyLife = 70;
 let playerMana = 150;
@@ -15,6 +18,34 @@ let manaPotionStock = 3;
 
 combatLog.innerHTML = `<p>Here comes a new challenger ! C4m1ll3 enters the dungeon.</p>`;
 combatLog.scrollTop = combatLog.scrollHeight;
+
+const firstEnemy = document.getElementById("enemy1");
+const secondEnemy = document.getElementById("enemy2");
+const thirdEnemy = document.getElementById("enemy3");
+
+function newEnemies(e) {
+    if (e == 70) {
+        firstEnemy.classList.add("enemy");
+    }
+    else if (e == 0 && enemyMaxLife != 120) {
+        firstEnemy.classList.remove("enemy");
+        secondEnemy.classList.add("enemy")
+        enemyMaxLife = 120
+        enemyLife = 120
+        updateLife();
+        updateMana();
+    }
+    else if (e == 0 && enemyMaxLife == 120) {
+        secondEnemy.classList.remove("enemy");
+        thirdEnemy.classList.add("enemy")
+        enemyMaxLife = 200
+        enemyLife = 200
+        updateLife();
+        updateMana();
+    }
+}
+
+newEnemies(enemyLife);
 
 function getRand(x) {
     return Math.floor(Math.random() * x);
@@ -32,13 +63,29 @@ function disableButtons() {
 }
 
 const showPlayerDamages = document.querySelector("#player .profilHead p")
-const showEnemyDamages = document.querySelector("#enemy .profilHead p")
+const showEnemyDamages = document.querySelector(".enemy .profilHead p")
 
 function injectPlayerDamages(d) {
     showEnemyDamages.classList.add("damages");
     showEnemyDamages.innerHTML = `-${d}`;
     setTimeout(function () {
         showEnemyDamages.classList.remove("damages")
+    }, 2000)
+}
+
+function injectHealPotions(p) {
+    showPlayerDamages.classList.add("healPotions");
+    showPlayerDamages.innerHTML = `+${p}`;
+    setTimeout(function () {
+        showPlayerDamages.classList.remove("healPotions")
+    }, 2000)
+}
+
+function injectManaPotions(p) {
+    showPlayerDamages.classList.add("manaPotions");
+    showPlayerDamages.innerHTML = `+${p}`;
+    setTimeout(function () {
+        showPlayerDamages.classList.remove("manaPotions")
     }, 2000)
 }
 
@@ -52,7 +99,11 @@ function injectEnemyDamages(d) {
 
 function enemyAttack() {
     if (enemyLife <= 0) {
+        enemyLife = 0;
         combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.scrollTop = combatLog.scrollHeight;
+        newEnemies(enemyLife);
+        combatLog.innerHTML += `<p class="red">☠️HERE COMES A NEW CHALLENGER !☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
@@ -76,32 +127,31 @@ function enemyAttack() {
             combatLog.scrollTop = combatLog.scrollHeight;
             injectEnemyDamages(damages);
         }
-        combatLog.innerHTML += `<p>🪄Your turn ! What will you do ?🪄</p>`
+        combatLog.innerHTML += `<p class="green">Your turn ! What will you do ?</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
-
         updateLife();
     }
 }
 
 function attackWithSword() {
     if (enemyLife <= 0) {
-        combatLog.innerHTML = `<p>☠️Enemy is DEAD.☠️</p>`
+        combatLog.innerHTML += `<p>☠️Enemy is DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else if (playerLife <= 0) {
-        combatLog.innerHTML = `<p>☠️You are DEAD.☠️</p>`
+        combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
     }
     else {
-        let damages = getRand(10) + 5
+        let damages = getRand(10) + force;
         enemyLife -= damages;
         if (enemyLife <= 0) {
             enemyLife = 0;
-            combatLog.innerHTML = `<p>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !</p>`;
+            combatLog.innerHTML += `<p>FINISHER SWING ! Enemy's life is now at ${enemyLife} hp ! He dies !</p>`;
             combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            combatLog.innerHTML = `<p>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.</p>`;
+            combatLog.innerHTML += `<p>Swing ! You hit for ${damages} damages ! Enemy's life is now at ${enemyLife} hp.</p>`;
             combatLog.scrollTop = combatLog.scrollHeight;
         }
 
@@ -116,7 +166,7 @@ function attackWithSword() {
 }
 
 function spark() {
-    let damages = getRand(5) + 5;
+    let damages = getRand(5) + (0.5 * intelligence);
     enemyLife -= damages;
     if (enemyLife < 0) {
         enemyLife = 0;
@@ -184,7 +234,7 @@ function fireball() {
             combatLog.scrollTop = combatLog.scrollHeight;
         }
         else {
-            damages = enemyLife / 2;
+            damages = (enemyLife / 2) + intelligence;
             enemyLife -= damages;
             playerMana -= 30;
 
@@ -209,6 +259,7 @@ function fireball() {
 }
 
 function takeHealPotion(p) {
+    injectHealPotions(p);
     if (playerLife <= 0) {
         combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
@@ -240,11 +291,14 @@ function takeHealPotion(p) {
             }
             updatePotions();
             updateLife();
+            disableButtons();
+            setTimeout(disableButtons,2000);
         }
     }
 }
 
 function takeManaPotion(q) {
+    injectManaPotions(q);
     if (playerLife <= 0) {
         combatLog.innerHTML += `<p>☠️You are DEAD.☠️</p>`
         combatLog.scrollTop = combatLog.scrollHeight;
@@ -276,14 +330,16 @@ function takeManaPotion(q) {
             }
             updateMana();
             updatePotions();
+            disableButtons();
+            setTimeout(disableButtons,2000);
         }
     }
 }
 
 const playerLifeBar = document.querySelector("#player .healthbar");
-const enemyLifeBar = document.querySelector("#enemy .healthbar");
+const enemyLifeBar = document.querySelector(".enemy .healthbar");
 const playerManaBar = document.querySelector("#player .manabar");
-const enemyManaBar = document.querySelector("#enemy .manabar");
+const enemyManaBar = document.querySelector(".enemy .manabar");
 const nbLifePotions = document.querySelector(".inventory ul li span#heal")
 const nbManaPotions = document.querySelector(".inventory ul li span#mana")
 
