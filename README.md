@@ -1,3 +1,3 @@
 # RPG-JS
 
-A nice short (and first) training to do a mini game with Javascript.
+A nice and (very) short mini, and my first Javascript project.
